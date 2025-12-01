@@ -1,3 +1,4 @@
 <resources>
-    <string name="羅婉薰">s1132249</string>
+    <string name="app_name">羅婉薰</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
