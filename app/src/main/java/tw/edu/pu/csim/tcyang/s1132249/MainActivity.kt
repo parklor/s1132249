@@ -19,6 +19,8 @@ import android.util.DisplayMetrics
 import androidx.lifecycle.viewmodel.compose.viewModel
 import tw.edu.pu.csim.tcyang.s1132249.ExamViewModel
 import tw.edu.pu.csim.tcyang.s1132249.ExamScreen
+import androidx.compose.runtime.LaunchedEffect // 确保导入
+import androidx.lifecycle.viewmodel.compose.viewModel // 确保导入
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +40,14 @@ class MainActivity : ComponentActivity() {
 
             setContent {
                 val examViewModel: ExamViewModel = viewModel()
+                val screenWidthPx = displayMetrics.widthPixels
+                val screenHeightPx = displayMetrics.heightPixels
                 examViewModel.updateScreenDimensions(screenWidthPx, screenHeightPx)
+
+                LaunchedEffect(Unit) {
+                    examViewModel.generateNewFallingIcon(screenWidthPx)
+                }
+
                 S1132249Theme {
                     ExamScreen(viewModel = examViewModel)
                 }
