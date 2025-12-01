@@ -15,6 +15,10 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import tw.edu.pu.csim.tcyang.s1132249.ui.theme.S1132249Theme
+import android.util.DisplayMetrics
+import androidx.lifecycle.viewmodel.compose.viewModel
+import tw.edu.pu.csim.tcyang.s1132249.ExamViewModel
+import tw.edu.pu.csim.tcyang.s1132249.ExamScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,14 +30,17 @@ class MainActivity : ComponentActivity() {
             controller.hide(WindowInsetsCompat.Type.systemBars())
             controller.systemBarsBehavior =
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
+            val displayMetrics = DisplayMetrics()
+            windowManager.defaultDisplay.getMetrics(displayMetrics)
+            val screenWidthPx = displayMetrics.widthPixels
+            val screenHeightPx = displayMetrics.heightPixels
+
             setContent {
+                val examViewModel: ExamViewModel = viewModel()
+                examViewModel.updateScreenDimensions(screenWidthPx, screenHeightPx)
                 S1132249Theme {
-                    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                        Greeting(
-                            name = "Android",
-                            modifier = Modifier.padding(innerPadding)
-                        )
-                    }
+                    ExamScreen(viewModel = examViewModel)
                 }
             }
         }
